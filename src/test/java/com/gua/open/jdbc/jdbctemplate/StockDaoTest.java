@@ -17,9 +17,9 @@ import com.gua.open.jdbc.dto.StockDto;
  */
 public class StockDaoTest {
 
-    private static ApplicationContext context = new ClassPathXmlApplicationContext("service-beans.xml");
+    private static ApplicationContext context = new ClassPathXmlApplicationContext("db-service-beans.xml");
     
-//    @Test
+    @Test
     public void testBatchInsert() {
         StockDao stockDao = context.getBean(StockDao.class);
         List<StockDto> stockDtoList = new ArrayList<StockDto>();
@@ -35,6 +35,12 @@ public class StockDaoTest {
         for (StockDto stockDto : stockDtoList) {
             System.out.println(stockDto.toString());
         }
+    }
+    
+    @Test
+    public void testClearTable() {
+        StockDao stockDao = context.getBean(StockDao.class);
+        stockDao.clearTable();
     }
 
     private static StockDto newStockDto(Integer stockCode, String stockName, String continuousBlankPlateQuantity,

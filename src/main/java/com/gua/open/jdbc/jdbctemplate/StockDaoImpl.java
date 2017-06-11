@@ -72,6 +72,11 @@ public class StockDaoImpl implements StockDao, InitializingBean {
 
         return stockDtos;
     }
+    
+    @Override
+    public void clearTable() {
+        jdbcTemplate.batchUpdate("delete from stock_eastmoney");
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {

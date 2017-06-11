@@ -14,4 +14,6 @@ public interface StockDao {
     public void batchInsert(List<StockDto> stockDtos);
     
     public List<StockDto> queryByCrawlDate();
+    
+    public void clearTable();
 }
