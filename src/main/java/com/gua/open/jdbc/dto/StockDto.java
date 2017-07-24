@@ -24,6 +24,8 @@ public class StockDto {
 
     private float   signProfit;
 
+    private Date marketDate;
+
     private Date    crawlDate;
 
     public Integer getStockCode() {
@@ -64,6 +66,14 @@ public class StockDto {
 
     public void setSignProfit(float signProfit) {
         this.signProfit = signProfit;
+    }
+
+    public Date getMarketDate() {
+        return marketDate;
+    }
+
+    public void setMarketDate(Date marketDate) {
+        this.marketDate = marketDate;
     }
 
     public Date getCrawlDate() {

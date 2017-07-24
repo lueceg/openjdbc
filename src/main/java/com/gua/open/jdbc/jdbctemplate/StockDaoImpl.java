@@ -1,10 +1,6 @@
 package com.gua.open.jdbc.jdbctemplate;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-
+import com.gua.open.jdbc.dto.StockDto;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -12,7 +8,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
-import com.gua.open.jdbc.dto.StockDto;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 类StockDaoImpl.java的实现描述：TODO 类实现描述
@@ -29,8 +29,8 @@ public class StockDaoImpl implements StockDao, InitializingBean {
     @Override
     public void batchInsert(List<StockDto> stockDtos) {
         final List<StockDto> tempStocklist = stockDtos;
-        String sql = "insert into stock_eastmoney(stock_code,stock_name,continuous_blank_plate_quantity,total_increase,sign_profit,crawl_date,modify_time,create_time)"
-                     + " values(?,?,?,?,?,?,now(), now())";
+        String sql = "insert into stock_eastmoney(stock_code,stock_name,continuous_blank_plate_quantity,total_increase,sign_profit,market_date,crawl_date,modify_time,create_time)"
+                     + " values(?,?,?,?,?,?,?,now(), now())";
         this.jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
 
             @Override
@@ -45,7 +45,13 @@ public class StockDaoImpl implements StockDao, InitializingBean {
                 ps.setString(3, tempStocklist.get(i).getContinuousBlankPlateQuantity());
                 ps.setFloat(4, tempStocklist.get(i).getTotalIncrease());
                 ps.setFloat(5, tempStocklist.get(i).getSignProfit());
-                ps.setDate(6, tempStocklist.get(i).getCrawlDate());
+                Timestamp timestamp = null;
+                if (null != tempStocklist.get(i).getMarketDate()) {
+                    timestamp = new Timestamp(tempStocklist.get(i).getMarketDate().getTime());
+                }
+                ps.setTimestamp(6, timestamp);
+
+                ps.setTimestamp(7, new Timestamp(tempStocklist.get(i).getCrawlDate().getTime()));
             }
         });
 
@@ -65,6 +71,7 @@ public class StockDaoImpl implements StockDao, InitializingBean {
                                                               stockDto.setContinuousBlankPlateQuantity(rs.getString("continuous_blank_plate_quantity"));
                                                               stockDto.setTotalIncrease(rs.getFloat("total_increase"));
                                                               stockDto.setSignProfit(rs.getFloat("sign_profit"));
+                                                              stockDto.setMarketDate(rs.getDate("market_date"));
                                                               stockDto.setCrawlDate(rs.getDate("crawl_date"));
                                                               return stockDto;
                                                           }
