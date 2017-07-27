@@ -7,6 +7,11 @@
     http://www.springframework.org/schema/context/spring-context-2.5.xsd"
 	default-autowire="byName">
 
-	<context:component-scan base-package="com.gua.open.jdbc" />
+	<context:component-scan base-package="com.gua.open" />
+
+	<!-- 引入dbconfig.properties属性文件 -->
+	<context:property-placeholder location="classpath:dbconfig.properties" />
+
+	<import resource="spring-mybatis.xml" />
 
 </beans>
