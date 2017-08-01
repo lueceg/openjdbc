@@ -13,6 +13,8 @@ public interface StockDaoMapper {
 
     StockDao selectByPrimaryKey(Integer stockCode);
 
+    List<StockDao> selectAll();
+
     int updateByPrimaryKeySelective(StockDao record);
 
     int updateByPrimaryKey(StockDao record);

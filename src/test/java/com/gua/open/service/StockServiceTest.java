@@ -1,6 +1,7 @@
 package com.gua.open.service;
 
 import com.gua.open.mybatis.dto.StockDao;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -58,6 +59,17 @@ public class StockServiceTest {
         stockCodeList.add(132293);
         int i = stockService.deleteBatch(stockCodeList);
         System.out.println(i);
+    }
+
+    @Test
+    public void testSelectAll() {
+        StockService stockService = context.getBean(StockService.class);
+        List<StockDao> stockDaos = stockService.selectAll();
+        Assert.assertNotNull(stockDaos);
+        System.out.println(stockDaos.size());
+        for (int index =0; index < 10; index++) {
+            System.out.println(stockDaos.get(index));
+        }
     }
 
     private static StockDao newStockDao(Integer stockCode, String stockName, String continuousBlankPlateQuantity,

@@ -33,6 +33,9 @@ public class StockServiceImpl implements StockService {
         return stockDaoMapper.selectByPrimaryKey(stockCode);
     }
 
+    public List<StockDao> selectAll() {
+        return stockDaoMapper.selectAll();
+    }
     public int updateByPrimaryKeySelective(StockDao record) {
         return stockDaoMapper.updateByPrimaryKeySelective(record);
     }
